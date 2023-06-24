@@ -12,7 +12,7 @@ app.post('/api/stuff', (req, res, next) => {
   console.log(req.body);
   res.status(201).json({
     message: 'Thing created successfully!'
-  })''
+  });
 });
 
 app.use('/api/stuff', (req, res, next) => {
@@ -53,13 +53,13 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Routes
 
-const userRoutes = require('./routes/userRoutes');
-const saucesRoutes = require('./routes/saucesRoutes');
-app.use('/api/auth', userRoutes);
-app.use('/api/sauces', saucesRoutes);
+// const userRoutes = require('./routes/userRoutes');
+// const saucesRoutes = require('./routes/saucesRoutes');
+// app.use('/api/auth', userRoutes);
+// app.use('/api/sauces', saucesRoutes);
 
 // Catch undefined or invalid routes
-app.use((req, res next) => {
+app.use((req, res, next) => {
   res.redirect('/api/sauces'); // Redirect to the sauce list route
 });
 
