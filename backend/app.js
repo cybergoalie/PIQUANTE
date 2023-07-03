@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const Thing = require('./models/thing');
-app.use(express.json());
+const Thing = require('./models/thing'); //  imports the Thing model from the thing.js file located in the models directory
+
+app.use(express.json()); // parse incoming requests with JSON payloads in Express, allowing you to access the request body as a JavaScript object
 
 /** 
  * Middleware for handling CORS
@@ -19,34 +20,34 @@ app.use((req, res, next) => {
  * Middleware for handling requests to '/api/stuff' endpoint.
  * Returns a list of dummy data for demonstration purposes.
 */
-// app.post('/api/stuff', (req, res, next) => {
-//   console.log(req.body);
-//   res.status(201).json({
-//     message: 'Thing created successfully!'
-//   });
-// });
+app.post('/api/stuff', (req, res, next) => {
+  console.log(req.body);
+  res.status(201).json({
+    message: 'Thing created successfully!'
+  });
+});
 
-// app.use('/api/stuff', (req, res, next) => {
-//   const stuff = [
-//     {
-//       _id: 'oeihfzeoi',
-//       title: 'My first thing',
-//       description: 'All of the info about my first thing',
-//       imageUrl: '',
-//       price: 4900,
-//       userId: 'qsomihvqios',
-//     },
-//     {
-//       _id: 'oeihfzeomoihi',
-//       title: 'My second thing',
-//       description: 'All of the info about my second thing',
-//       imageUrl: '',
-//       price: 2900,
-//       userId: 'qsomihvqios',
-//     },
-//   ];
-//   res.status(200).json(stuff);
-// });
+app.use('/api/stuff', (req, res, next) => {
+  const stuff = [
+    {
+      _id: 'oeihfzeoi',
+      title: 'My first thing',
+      description: 'All of the info about my first thing',
+      imageUrl: '',
+      price: 4900,
+      userId: 'qsomihvqios',
+    },
+    {
+      _id: 'oeihfzeomoihi',
+      title: 'My second thing',
+      description: 'All of the info about my second thing',
+      imageUrl: '',
+      price: 2900,
+      userId: 'qsomihvqios',
+    },
+  ];
+  res.status(200).json(stuff);
+});
 
 app.post('/api/stuff', (req, res, next) => {
   const thing = new Thing({
