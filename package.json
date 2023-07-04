@@ -10,33 +10,32 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~13.2.0",
-    "@angular/cdk": "~13.2.3",
-    "@angular/common": "~13.2.0",
-    "@angular/compiler": "~13.2.0",
-    "@angular/core": "~13.2.0",
-    "@angular/forms": "~13.2.0",
-    "@angular/material": "~13.2.3",
-    "@angular/platform-browser": "~13.2.0",
-    "@angular/platform-browser-dynamic": "~13.2.0",
-    "@angular/router": "~13.2.0",
-    "bootstrap": "^5.1.3",
-    "rxjs": "~7.5.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
+    "@angular/animations": "~13.2.0", // provides support for animations in Angular applications; it allows you to create and control animations for various UI elements
+    "@angular/cdk": "~13.2.3", // a set of tools and utilities that complement Angular's core functionality. It provides a collection of reusable components, directives, and services to aid in building complex UI interactions.
+    "@angular/common": "~13.2.0", // contains common functionality used by Angular applications, including directives, pipes, and utilities for manipulating and formatting data.
+    "@angular/compiler": "~13.2.0", // responsible for transforming Angular templates and components into JavaScript code that can be executed by the browser. It is a critical part of the Angular framework.
+    "@angular/core": "~13.2.0", // provides the fundamental building blocks for Angular applications. It includes decorators, dependency injection, change detection, and other essential features.
+    "@angular/forms": "~13.2.0", // implements Material Design guidelines. It provides a wide range of ready-to-use UI components such as buttons, inputs, dialogs, and more, allowing you to create visually appealing and consistent user interfaces.
+    "@angular/platform-browser": "~13.2.0", // provides Angular-specific implementation for web browsers. It includes services and utilities for browser-specific operations such as rendering, DOM manipulation, and event handling.
+    "@angular/platform-browser-dynamic": "~13.2.0", // provides the dynamic compilation and bootstrapping capabilities needed to launch Angular applications in a browser environment.
+    "@angular/router": "~13.2.0", //  used for handling routing and navigation in Angular applications. It allows you to define routes, handle navigation events, and load different components based on the current route.
+    "bootstrap": "^5.1.3", // a popular CSS framework that provides pre-designed UI components and a responsive grid system. It allows you to easily style your Angular application and make it mobile-friendly.
+    "rxjs": "~7.5.0", //  a reactive programming library that provides tools for working with asynchronous data streams in Angular applications. It enables you to handle events, perform data transformations, and manage asynchronous operations.
+    "tslib": "^2.3.0", // provides runtime helper functions for TypeScript. It is used by Angular to optimize generated JavaScript code and provide additional runtime features.
+    "zone.js": "~0.11.4" //  a library that enables Angular's change detection mechanism and manages asynchronous tasks. It helps to keep track of changes and updates in the application and ensures that Angular's data binding works efficiently.
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~13.2.4",
-    "@angular/cli": "~13.2.4",
-    "@angular/compiler-cli": "~13.2.0",
-    "@types/jasmine": "~3.10.0",
-    "@types/node": "^12.11.1",
-    "jasmine-core": "~4.0.0",
-    "karma": "~6.3.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage": "~2.1.0",
-    "karma-jasmine": "~4.0.0",
-    "karma-jasmine-html-reporter": "~1.7.0",
-    "typescript": "~4.5.2"
+    "@angular-devkit/build-angular": "~13.2.4", //  provides the build and compilation tools specific to Angular projects. It includes commands and utilities to build, bundle, and optimize your Angular application for deployment.
+    "@angular/cli": "~13.2.4", // Angular CLI (Command Line Interface) is a powerful command-line tool that allows you to scaffold, develop, and maintain Angular applications. It provides commands for generating components, services, modules, and more. It also helps with building, testing, and deploying your application.
+    "@angular/compiler-cli": "~13.2.0", // a tool used during the build process to compile Angular templates and TypeScript code into optimized JavaScript that can be executed by the browser. It provides the necessary tools for Ahead-of-Time (AOT) compilation.
+    "@types/jasmine": "~3.10.0", //  provides type definitions for the Jasmine testing framework. It allows TypeScript projects to have type checking and IntelliSense support when writing Jasmine tests.
+    "@types/node": "^12.11.1", // provides type definitions for the Node.js runtime environment. It allows TypeScript projects to have type checking and IntelliSense support when using Node.js-specific APIs and modules.
+    "jasmine-core": "~4.0.0", // a popular testing framework for JavaScript applications. "jasmine-core" is the core library that provides the necessary functions and utilities for writing and running Jasmine tests.
+    "karma": "~6.3.0", //  a test runner for JavaScript applications. It allows you to run your tests in real browsers or headless environments. Karma integrates with other tools like Jasmine to execute your tests and generate test reports.
+    "karma-chrome-launcher": "~3.1.0", // This Karma plugin allows you to launch and run tests in Google Chrome browser instances. It provides integration with Chrome for running tests and capturing test results.
+    "karma-coverage": "~2.1.0", // a plugin that generates code coverage reports for your tests. It collects information about which parts of your code were executed during the test run and generates a coverage report that shows the code coverage percentage.
+    "karma-jasmine": "~4.0.0", // a plugin that integrates the Jasmine testing framework with the Karma test runner. It allows you to write and run Jasmine tests using the Karma infrastructure.
+    "karma-jasmine-html-reporter": "~1.7.0", // generates an HTML report for Jasmine test results. It provides a detailed and user-friendly report that shows the test execution status, test case names, and any error messages.
+    "typescript": "~4.5.2" // a programming language that extends JavaScript by adding static typing and other features. The "typescript" package provides the TypeScript compiler and related tools that are used to transpile TypeScript code into JavaScript.
   }
 }
