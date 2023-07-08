@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const Thing = require('./models/thing');
-app.use(express.json());
+const Thing = require('./models/thing'); //  imports the Thing model from the thing.js file located in the models directory
+
+app.use(express.json()); // parse incoming requests with JSON payloads in Express, allowing you to access the request body as a JavaScript object
 
 /** 
  * Middleware for handling CORS
