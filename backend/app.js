@@ -15,51 +15,52 @@ app.use((req, res, next) => {
   next();
 });
 
+
+
 /**  
  * Middleware for handling requests to '/api/stuff' endpoint.
  * Returns a list of dummy data for demonstration purposes.
 */
-// app.post('/api/stuff', (req, res, next) => {
-//   console.log(req.body);
-//   res.status(201).json({
-//     message: 'Thing created successfully!'
-//   });
-// });
 
-// app.use('/api/stuff', (req, res, next) => {
-//   const stuff = [
-//     {
-//       _id: 'oeihfzeoi',
-//       title: 'My first thing',
-//       description: 'All of the info about my first thing',
-//       imageUrl: '',
-//       price: 4900,
-//       userId: 'qsomihvqios',
-//     },
-//     {
-//       _id: 'oeihfzeomoihi',
-//       title: 'My second thing',
-//       description: 'All of the info about my second thing',
-//       imageUrl: '',
-//       price: 2900,
-//       userId: 'qsomihvqios',
-//     },
-//   ];
-//   res.status(200).json(stuff);
-// });
+app.use('/api/stuff', (req, res, next) => {
+  const stuff = [
+    {
+      _id: 'oeihfzeoi',
+      title: 'My first thing',
+      description: 'All of the info about my first thing',
+      imageUrl: '',
+      price: 4900,
+      userId: 'qsomihvqios',
+    },
+    {
+      _id: 'oeihfzeomoihi',
+      title: 'My second thing',
+      description: 'All of the info about my second thing',
+      imageUrl: '',
+      price: 2900,
+      userId: 'qsomihvqios',
+    },
+  ];
+  res.status(200).json(stuff);
+});
+
+// Serve static files from the `images` directory:
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.post('/api/stuff', (req, res, next) => {
+  console.log(req.body); // Log the request body to the console
+  const { title, description, imageUrl, price, userId } = req.body;
   const thing = new Thing({
-    title: req.body.title,
-    description: req.body.description,
-    imageUrl: req.body.imageUrl,
-    price: req.body.price,
-    userId: req.body.userId
+    title,
+    description,
+    imageUrl,
+    price,
+    userId
   });
   thing.save().then(
     () => {
       res.status(201).json({
-        message: 'Post saved successfully!'
+        message: 'Thing saved successfully!'
       });
     }
   ).catch(
@@ -68,22 +69,36 @@ app.post('/api/stuff', (req, res, next) => {
         error: error
       });
     }
-  );
+  )
 });
 
-// Serve static files from the `images` directory:
-app.use('/images', express.static(path.join(__dirname, 'images')));
+// Route to get a specific thing
+
+app.get('/api/stuff/:id', (req, res, next) => {
+  Thing.findOne({_id: req.params.id})
+    .then((thing) => {
+      if (!thing) {
+        return res.status(404).json({ error: 'Thing not found' });
+      }
+      res.status(200).json(thing);
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error.message });
+    });
+});
+
+
+// Route to get all things
+app.use('/api/stuff', (req, res, next) => {
+  Thing.find().then((things) => {
+    res.status(200).json(things);
+  })
+  .catch((error) => {
+    res.status(500).json({
+      error:error
+    });
+  });
+});
 
 // Routes
-
-// const userRoutes = require('./routes/userRoutes');
-// const saucesRoutes = require('./routes/saucesRoutes');
-// app.use('/api/auth', userRoutes);
-// app.use('/api/sauces', saucesRoutes);
-
-// Catch undefined or invalid routes
-// app.use((req, res, next) => {
-//   res.redirect('/api/sauces'); // Redirect to the sauce list route
-// });
-
 module.exports = app;
