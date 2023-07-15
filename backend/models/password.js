@@ -9,6 +9,6 @@ passwordSchema
   .has().lowercase() // Must have at least one lowercase letter
   .has().digits() // Must have at least one digit
   .has().not().spaces() // Must not contain spaces
-  .is().not().oneOf(['password123', '123456789']);  // Must not be one of the common passwords
+  .is().not().oneOf(['password123', '12345678']);  // Must not be one of the common passwords
 
 module.exports = passwordSchema;
