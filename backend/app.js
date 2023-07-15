@@ -1,126 +1,38 @@
-const express = require('express');
-const path = require('path');
-const app = express();
-const Thing = require('./models/user'); //  imports the Thing model from the thing.js file located in the models directory
-
-app.use(express.json()); // parse incoming requests with JSON payloads in Express, allowing you to access the request body as a JavaScript object
-
-/** 
- * Middleware for handling CORS
- * Adds necessary headers to allow requests from different origins.
-*/
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  next();
-});
+// IMPORTS
+const express = require('express'); // Imports the Express framework
+const helmet = require('helmet'); // Imports the helmet middleware for securing HTTP headers
+const path = require('path'); // Imports the path module for working with file and directory paths
+const mongoSanitize = require ('express-mongo-sanitize'); // Imports the mongoSanitize middleware for preventing NoSQL injection attacks
+const sauceRoutes = require('./routes/sauce'); // Imports the sauce routes module
+const userRoutes = require('./routes/user'); // Imports the user routes module
+const app = express(); // Creates an instance of the Express application
 
 
+// EXPRESS SERVER FUNCTIONALITIES
 
-/**  
- * Middleware for handling requests to '/api/stuff' endpoint.
- * Returns a list of dummy data for demonstration purposes.
-*/
+  // Securing HTTP headers
+  app.use(helmet());
 
-// Serve static files from the `images` directory:
-app.use('/images', express.static(path.join(__dirname, 'images')));
-
-app.post('/api/stuff', (req, res, next) => {
-  console.log(req.body); // Log the request body to the console
-  const { title, description, imageUrl, price, userId } = req.body;
-  const thing = new Thing({
-    title,
-    description,
-    imageUrl,
-    price,
-    userId
+  // Setting headers
+  app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    next();
   });
-  thing.save().then(
-    () => {
-      res.status(201).json({
-        message: 'Thing saved successfully!'
-      });
-    }
-  ).catch(
-    (error) => {
-      res.status(400).json({
-        error: error
-      });
-    }
-  )
-});
 
-// Route to get a specific thing
+  // Parsing JSON objects
+  app.use(express.json());
 
-app.get('/api/stuff/:id', (req, res, next) => {
-  Thing.findOne({
-    _id: req.params.id
-  }).then(
-    (thing) => {
-      if (!thing) {
-        return res.status(404).json({ error: 'Thing not found' });
-      }
-      res.status(200).json(thing);
-    })
-    .catch((error) => {
-      res.status(500).json({ error: error.message });
-    });
-});
+  // Preventing code injection in MongoDB
+  app.use(mongoSanitize());
 
-// Route to update the Thing (corresponding to the object you pass as a first argument. Use the id parameter passed in the request and replace it with the Thing passed as a second argument.
+  // Handling image files
+  app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.put('/api/stuff/:id', (req, res, next) => {
-  const thing = new Thing({
-    _id: req.params.id,
-    title: req.body.title,
-    description: req.body.description,
-    imageUrl: req.body.imageUrl,
-    price: req.body.price,
-    userId: req.body.userId
-  });
-  Thing.updateOne({_id: req.params.id}, thing).then(
-    () => {
-      res.status(201).json({
-        message: 'Thing updated successfully!'
-      });
-    }
-  ).catch(
-    (error) => {
-      res.status(400).json({
-        error: error
-      });
-    }
-  );
-});
+  // Routes
+  app.use('/api/sauces', sauceRoutes); // Middleware for handling sauce routes
+  app.use('/api/auth', userRoutes); // Middleware for handling user routes
 
-// Route to delete a Thing
-
-app.delete('/api/stuff/:id', (req, res, next) => {
-  Thing.deleteOne({ _id: req.params.id })
-    .then(() => {
-      res.status(200).json({
-        message: 'Deleted!'
-      });
-    })
-    .catch((error) => {
-      res.status(400).json({
-        error: error
-      });
-    });
-});
-
-// Route to get all things
-app.get('/api/stuff', (req, res, next) => {
-  Thing.find().then((things) => {
-    res.status(200).json(things);
-  })
-  .catch((error) => {
-    res.status(500).json({
-      error:error
-    });
-  });
-});
-
-// Routes
-module.exports = app;
+// EXPORT
+module.exports = app; // Exports the Express application
