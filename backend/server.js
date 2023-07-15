@@ -1,16 +1,17 @@
+// IMPORTS
 require('dotenv').config();
 const http = require('http');
 const app = require('./app');
 const mongoose = require('mongoose');
 
 /**
+ * CONFIGURATION OF PORTS:
  * Normalizes a port into a number, string, or false.
  * @param {string} val - The port value to normalize.
  * @returns {(number|string|boolean)} - The normalized port.
  */
 const normalizePort = (val) => {
     const port = parseInt(val, 10);
-
     if (isNaN(port)) {
         return val;
     }
@@ -19,6 +20,7 @@ const normalizePort = (val) => {
     }
     return false;
 };
+
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
@@ -48,7 +50,7 @@ const errorHandler = (error) => {
     }
 };
 
-// Connect to MongoDB using Mongoose
+// Connect to MongoDB using Mongoose before creating server (ENSURES DATA IS SECURED)
 mongoose
     .connect(process.env.DB_CONNECTION_STRING, {
         useNewUrlParser: true,
