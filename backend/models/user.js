@@ -8,12 +8,6 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
     required: true,
-    validate: {
-      validator: function (value) {
-        return passwordSchema.validate(value); // Use the password validation schema
-      },
-      message: 'Invalid password',
-    },
   },
 });
 

@@ -4,9 +4,11 @@
 require('dotenv').config(); // Loads environment variables from a .env file
 const bcrypt = require('bcrypt'); // Library for password hashing
 const maskData = require('maskdata'); // Library for data masking
-const User = require('../models/User'); // User model
+const User = require('../models/user'); // User model
 const jwt = require('jsonwebtoken'); // Library for generating JSON Web Tokens (JWT)
 const express = require('express'); // Express framework
+const passwordSchema = require('../models/password'); // Import the password validation schema
+
 
 // SIGNUP
 exports.signup = (req, res, next) => {
