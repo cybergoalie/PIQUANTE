@@ -1,6 +1,7 @@
+// Controllers are the "Task Executors". They contain the logic and business operations of the application. Controllers receive requests from the routes, process the data, interact with the models for data retrieval or manipulation, and formulate the appropriate responses to be sent back to the clients.
 // Controllers: handle the logic for each API endpoint... handle incoming requests, interact with the database through the models, and return the appropriate responses.
 // IMPORTS
-const Sauce = require('../models/Sauce');
+const Sauce = require('../models/sauce');
 const fs = require('fs');
 
 // CREATE A SAUCE

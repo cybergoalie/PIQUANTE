@@ -1,5 +1,5 @@
 // IMPORT
-const passwordSchema = require('../models/Password');
+const passwordSchema = require('../models/password');
 
 // EXPORT
 module.exports = (req, res, next) => {

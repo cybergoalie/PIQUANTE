@@ -1,3 +1,4 @@
+// Models act as the "Data Managers". They represent the structure and logic of the data used in the application. Models handle the interaction with the database, define data validation rules, and provide methods for querying and manipulating data.
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const passwordSchema = require('./password'); // Import the password validation schema
