@@ -7,11 +7,23 @@ const fs = require('fs');
 // CREATE A SAUCE
 exports.createSauce = (req, res, next) => {
   console.log('Sauce created:', req.body.sauce);
-  const sauceObject = JSON.parse(req.body.sauce);
-  delete sauceObject._id;
+  let sauceObject;
+  let imageUrl = null; 
+  if (req.file) {
+    sauceObject = JSON.parse(req.body.sauce);
+    imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+  } else {
+    sauceObject = req.body;
+  }
+
+  // delete sauceObject._id;
   const sauce = new Sauce({
     ...sauceObject,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    imageUrl,
+    likes: 0,
+    dislikes: 0,
+    usersLiked: [],
+    usersDisliked: []
   });
   sauce.save()
     .then(() => res.status(201).json({ message: 'Object saved!' }))
