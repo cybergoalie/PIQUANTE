@@ -6,17 +6,20 @@ const fs = require('fs');
 
 // CREATE A SAUCE
 exports.createSauce = (req, res, next) => {
-  console.log('Sauce created:', req.body.sauce);
-  let sauceObject;
+
+  let sauceObject; //  This variable is declared to store the sauce data that will be saved to the database. Initially, it is set to undefined.
   let imageUrl = null; 
-  if (req.file) {
-    sauceObject = JSON.parse(req.body.sauce);
-    imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-  } else {
-    sauceObject = req.body;
+
+  if (req.file) { // translates to 'if there is a file in the request; if there is a file, it means the user has uploaded an image for the sauce, in which case the if block is executed
+    sauceObject = JSON.parse(req.body.sauce); // means that if there is a file, the sauce data is stored in `req.body.sauce` as a JSON string; this line parses that JSON string and assigns it to `sauceObject , so now `sauceObject  contains the sauce data extracted from `req.body.sauce`. 
+    imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`; // this sets the `imageUrl` variable to the URL of the uploaded image; constructs the image URL using the `req.protocol(HTTP/HTTPS), `req.get('host')` (the host/domain of the server) and the `req.file.filename` (the name of the uploaded image file). This URL will be used to store the image in the server and, if needed, associate it with the sauce object.
+    
+    // sauceObject.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`; // Set the imageUrl when an image is uploaded (actually, the above 2 lines put together)
+
+  } else { // if there is no file (`req.file` is falsy), this means the user did not upload an image. In this case the code inside the `else` block is executed.
+    sauceObject = req.body; // this line means the sauce data is directly available in req.body and the entire req.body is to be assigned to the sauceObject.
   }
 
-  // delete sauceObject._id;
   const sauce = new Sauce({
     ...sauceObject,
     imageUrl,
@@ -25,8 +28,12 @@ exports.createSauce = (req, res, next) => {
     usersLiked: [],
     usersDisliked: []
   });
+
   sauce.save()
-    .then(() => res.status(201).json({ message: 'Object saved!' }))
+    .then(() => { 
+      console.log('Sauce created:', req.body.sauce);
+      res.status(201).json({ message: 'Sauce saved!' });
+    })
     .catch(error => res.status(400).json({ error }));
 };
 

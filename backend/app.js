@@ -25,14 +25,15 @@ app.use((req, res, next) => { // Middleware to set required headers for allowing
 app.use(express.json()); // Middleware for parsing incoming JSON objects in requests
 
 // Preventing code injection in MongoDB
-app.use(mongoSanitize()); // Middleware to sanitize user-supplied data and prevent NoSQL injection attacks.
+app.use(mongoSanitize()); // Apply the 'mongoSanitize' middleware to sanitize user-supplied data in request parameters, headers, and body. This helps prevent NoSQL injection attacks by stripping malicious MongoDB operators from the data.
 
 // Handling image files
-app.use('/images', express.static(path.join(__dirname, 'images'))); // Middleware to serve static files from the 'images' directory.
+app.use('/images', express.static(path.join(__dirname, 'images'))); // Set up a static path in your application to serve images from the 'images' folder, making them accessible to the front-end; considered best practice when defining static paths in your app, using "__dirname" refers to the current directory path where the script resides, and it helps create an absolute path to the 'images' folder; "/images" is the URL path that the front-end will use to access the images.
 
 // Routes
-app.use('/api/sauces', sauceRoutes); // Middleware for handling sauce routes
-app.use('/api/auth', userRoutes); // Middleware for handling user routes
+app.use('/api/sauces', sauceRoutes); // Mount the 'sauceRoutes' middleware at the '/api/sauces' URL path, allowing access to the backend API endpoints related to sauces. This makes it possible for the front-end to interact with the server and perform CRUD operations (Create, Read, Update, Delete) on sauces data.
+
+app.use('/api/auth', userRoutes); //  // Mount the 'userRoutes' middleware at the '/api/auth' URL path, enabling the front-end to interact with the authentication-related API endpoints on the server. This allows users to register, log in, and manage their authentication sessions.
 
 // Error handling middleware
 app.use((err, req, res, next) => { // This line defines an error handling middleware function that takes four parameters: err (error), req (request), res (response), and next (next middleware function). This middleware will be triggered when an error occurs during the request-response cycle.

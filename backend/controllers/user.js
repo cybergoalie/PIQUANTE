@@ -18,7 +18,7 @@ exports.signup = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then(existingUser => {
       if (existingUser) {
-        return res.status(400).json({ error: 'User with this email already exists!' });
+        return res.status(400).json({ message: 'User with this email already exists!' });
       }
 
       const validationResult = User.passwordSchema.validate(req.body.password, { list: true });
@@ -48,7 +48,7 @@ exports.signup = (req, res, next) => {
 
         console.log('Password validation errors:', errorMessages);
 
-        return res.status(400).json({ errors: errorMessages });
+        return res.status(400).json({ message: errorMessages });
       }
 
       bcrypt.hash(req.body.password, 10)
@@ -67,47 +67,54 @@ exports.signup = (req, res, next) => {
             })
             .catch(error => {
               console.log('Error saving user:', error);
-              res.status(400).json({ error });
+              res.status(400).json({ message: error.message });
             });
         })
         .catch(error => {
           console.log('Error hashing password:', error);
-          res.status(500).json({ error });
+          res.status(500).json({ message: error.message });
         });
     })
     .catch(error => {
       console.log('Error finding user:', error);
-      res.status(500).json({error});
+      res.status(500).json({ message: 'An error occurred while finding the user.' });
     });
-  };
+};
 
-  // LOGIN
-  exports.login = (req, res, next) => {
-    User
-      .findOne({ email: req.body.email })
-      .then((user) => {
-        if (!user) {
-          // User not found
-          return res.status(401).json({ error: 'User not found!' });
-        }
-        bcrypt // a library that is commonly used for password hashing and comparison in Node.js apps; it provides a secure and computationally expensive way to hash passwords, making them resistant to brute-force attacks.
-          .compare(req.body.password, user.password) // compare method of bcrypt is used to internally hash the plain text password entered by a user during the login process, using the same salt and algorithm used to hash the stored password, and then compares the resulting hash of the plain text password entered with a hashed password stored in the database.
-          .then(valid => {
-            if (!valid) {
-              // Incorrect password
-              return res.status(401).json({ error: 'Incorrect password!' });
-            }
-            // Generate a token for authentication; When a JWT is generated, it consists of 3 parts: a header, a payload, and a signature. The header and payload contain the encoded information, while the signature ensures the integrity of the token.
-            res.status(200).json({ // response status of 200 indicates a successful request; means the server has processed the request and is sending back a valid response.
-              userId: user._id,
-              token: jwt.sign(
-                { userId: user._id },
-                process.env.RANDOM_SECRET_TOKEN,
-                { expiresIn: '48h' }
-              )
-            });
-          })
-          .catch(error => res.status(500).json({ error }));
-      })
-      .catch(error => res.status(500).json({ error }));
-  };
+// LOGIN
+exports.login = (req, res, next) => {
+  User
+    .findOne({ email: req.body.email })
+    .then((user) => {
+      if (!user) {
+        // User not found
+        return res.status(401).json({ message: 'This email address is not currently registered to a user account. Click the Sign Up tab in the upper right of the webpage to post your sauce profile and review other sauces!' });
+      }
+      bcrypt // a library that is commonly used for password hashing and comparison in Node.js apps; it provides a secure and computationally expensive way to hash passwords, making them resistant to brute-force attacks.
+        .compare(req.body.password, user.password) // compare method of bcrypt is used to internally hash the plain text password entered by a user during the login process, using the same salt and algorithm used to hash the stored password, and then compares the resulting hash of the plain text password entered with a hashed password stored in the database.
+        .then(valid => {
+          if (!valid) {
+            // Incorrect password
+            return res.status(401).json({ message: 'Incorrect password!' });
+          }
+          // Generate a token for authentication; When a JWT is generated, it consists of 3 parts: a header, a payload, and a signature. The header and payload contain the encoded information, while the signature ensures the integrity of the token.
+          res.status(200).json({ // response status of 200 indicates a successful request; means the server has processed the request and is sending back a valid response.
+            userId: user._id,
+            token: jwt.sign(
+              { userId: user._id },
+              process.env.RANDOM_SECRET_TOKEN,
+              { expiresIn: '24h' }
+            )
+          });
+        })
+        .catch(error => {
+          console.error('Error comparing passwords:', error);
+          res.status(500).json({ message: error.message });
+        })
+        .catch(error => {
+          console.error('Error finding user:', error);
+          res.status(500).json({ message: error.message });
+        });
+
+    })
+};
