@@ -3,6 +3,7 @@ require('dotenv').config();
 const http = require('http');
 const app = require('./app');
 const mongoose = require('mongoose');
+const mongodbErrorHandler = require('mongoose-mongodb-errors');
 
 /**
  * CONFIGURATION OF PORTS:
@@ -56,7 +57,8 @@ mongoose
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
-    .then(() => {
+    .then((mongoose) => {
+        mongoose.plugin(mongodbErrorHandler);
         console.log('Connected to MongoDB');
 
         // Create HTTP server
