@@ -23,7 +23,6 @@
     "express-rate-limit": "^6.7.1",
     "helmet": "^7.0.0",
     "jsonwebtoken": "^9.0.0",
-    "maskdata": "^1.2.2",
     "mongoose": "^7.0.0",
     "mongoose-mongodb-errors": "^0.0.2",
     "mongoose-unique-validator": "^4.0.0",

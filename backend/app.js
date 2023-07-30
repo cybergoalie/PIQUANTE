@@ -11,7 +11,7 @@ const app = express(); // Creates an instance of the Express application
 // EXPRESS SERVER FUNCTIONALITIES
 
 // Securing HTTP headers
-// app.use(helmet());
+app.use(helmet()); // Helmet sets security-related response headers to enhance the overall security of your Express application, including Content-Security-Policy, Strict-Transport-Security, X-Content-Type-Options, X-Dns-Prefetch-Control, X-Download-Options, X-Frame-Options, Referrer-Policy, Cross-Origin-Opener-Policy, and Cross-Origin-Resource-Policy.
 
 // Setting headers
 app.use((req, res, next) => { // Middleware to set required headers for allowing cross-origin requests and defining allowed methods and headers.
