@@ -39,11 +39,11 @@ const errorHandler = (error) => {
     const address = server.address();
     const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
     switch (error.code) {
-        case 'EACCES':
+        case 'EACCES': // stands for "Error - Access Denied"
             console.error(bind + ' requires elevated privileges.');
             process.exit(1);
             break;
-        case 'EADDRINUSE':
+        case 'EADDRINUSE': // stands for "Error - Address already in use."
             console.error(bind + ' is already in use.');
             process.exit(1);
             break;
