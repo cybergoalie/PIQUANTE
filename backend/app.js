@@ -1,3 +1,7 @@
+// This file configures the Express application by setting up middleware, route definitions, and error handling.
+// It handles securing HTTP headers, parsing JSON objects, preventing code injection in MongoDB, serving image files, and mounting routes.
+// It works in tandem with server.js to create a fully functional backend server for the application. It is common to refer to these combined files as the "index.js" of the backend app.
+
 // IMPORTS
 const express = require('express'); // Imports the Express framework
 const helmet = require('helmet'); // Imports the helmet middleware for securing HTTP headers

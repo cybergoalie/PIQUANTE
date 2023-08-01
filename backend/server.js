@@ -1,4 +1,5 @@
-// IMPORTS
+// This file serves as the main entry point for the backend server; it handles server setup, port configuration, MongoDB connection, and startup error handling
+//  IMPORTS
 require('dotenv').config();
 const http = require('http');
 const app = require('./app');
