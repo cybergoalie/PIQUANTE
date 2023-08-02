@@ -4,7 +4,7 @@
 
 // IMPORTS
 const express = require('express'); // Imports the Express framework
-const helmet = require('helmet'); // Imports the helmet middleware for securing HTTP headers
+// const helmet = require('helmet'); // Imports the helmet middleware for securing HTTP headers
 const path = require('path'); // Imports the path module for working with file and directory paths
 const mongoSanitize = require('express-mongo-sanitize'); // Imports the mongoSanitize middleware for preventing NoSQL injection attacks
 const sauceRoutes = require('./routes/sauce'); // Imports the sauce routes module
@@ -15,7 +15,7 @@ const app = express(); // Creates an instance of the Express application
 // EXPRESS SERVER FUNCTIONALITIES
 
 // Securing HTTP headers
-app.use(helmet()); // Helmet sets security-related response headers to enhance the overall security of your Express application, including Content-Security-Policy, Strict-Transport-Security, X-Content-Type-Options, X-Dns-Prefetch-Control, X-Download-Options, X-Frame-Options, Referrer-Policy, Cross-Origin-Opener-Policy, and Cross-Origin-Resource-Policy.
+// app.use(helmet()); // Helmet sets security-related response headers to enhance the overall security of your Express application, including Content-Security-Policy, Strict-Transport-Security, X-Content-Type-Options, X-Dns-Prefetch-Control, X-Download-Options, X-Frame-Options, Referrer-Policy, Cross-Origin-Opener-Policy, and Cross-Origin-Resource-Policy.
 
 // Setting headers
 app.use((req, res, next) => { // Middleware to set required headers for allowing cross-origin requests and defining allowed methods and headers.
@@ -37,7 +37,7 @@ app.use('/images', express.static(path.join(__dirname, 'images'))); // Set up a 
 // Routes
 app.use('/api/sauces', sauceRoutes); // Mount the 'sauceRoutes' middleware at the '/api/sauces' URL path, allowing access to the backend API endpoints related to sauces. This makes it possible for the front-end to interact with the server and perform CRUD operations (Create, Read, Update, Delete) on sauces data.
 
-app.use('/api/auth', userRoutes); //  // Mount the 'userRoutes' middleware at the '/api/auth' URL path, enabling the front-end to interact with the authentication-related API endpoints on the server. This allows users to register, log in, and manage their authentication sessions.
+app.use('/api/auth', userRoutes); // Mount the 'userRoutes' middleware at the '/api/auth' URL path, enabling the front-end to interact with the authentication-related API endpoints on the server. This allows users to register, log in, and manage their authentication sessions.
 
 // Error handling middleware
 app.use((err, req, res, next) => { // This line defines an error handling middleware function that takes four parameters: err (error), req (request), res (response), and next (next middleware function). This middleware will be triggered when an error occurs during the request-response cycle.

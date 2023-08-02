@@ -8,7 +8,7 @@ const fs = require('fs');
 exports.createSauce = (req, res, next) => {
   console.log('Sauce created:', req.body.sauce);
   let sauceObject;
-  let imageUrl = null; 
+  let imageUrl = null;
   if (req.file) {
     sauceObject = JSON.parse(req.body.sauce);
     imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
@@ -16,7 +16,6 @@ exports.createSauce = (req, res, next) => {
     sauceObject = req.body;
   }
 
-  // delete sauceObject._id;
   const sauce = new Sauce({
     ...sauceObject,
     imageUrl,
@@ -80,10 +79,19 @@ exports.modifySauce = (req, res, next) => {
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => {
+      if (!sauce) {
+        return res.status(404).json({ message: 'Sauce not found!' });
+      }
+
       const filename = sauce.imageUrl.split('/images/')[1];
-      fs.unlink(`images/${filename}`, () => {
+      fs.unlink(`images/${filename}`, (err) => {
+        if (err) {
+          console.error('Error deleting image:', err);
+          return res.status(500).json({ error: 'Failed to delete image!' });
+        }
+
         Sauce.deleteOne({ _id: req.params.id })
-          .then(() => res.status(200).json({ message: 'Object deleted!' }))
+          .then(() => res.status(200).json({ message: 'Sauce deleted!' }))
           .catch(error => res.status(400).json({ error }));
       });
     })
