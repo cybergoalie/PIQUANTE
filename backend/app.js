@@ -4,7 +4,7 @@
 
 // IMPORTS
 const express = require('express'); // Imports the Express framework
-// const helmet = require('helmet'); // Imports the helmet middleware for securing HTTP headers
+const helmet = require('helmet'); // Imports the helmet middleware for securing HTTP headers
 const path = require('path'); // Imports the path module for working with file and directory paths
 const mongoSanitize = require('express-mongo-sanitize'); // Imports the mongoSanitize middleware for preventing NoSQL injection attacks
 const sauceRoutes = require('./routes/sauce'); // Imports the sauce routes module
@@ -15,7 +15,15 @@ const app = express(); // Creates an instance of the Express application
 // EXPRESS SERVER FUNCTIONALITIES
 
 // Securing HTTP headers
-// app.use(helmet()); // Helmet sets security-related response headers to enhance the overall security of your Express application, including Content-Security-Policy, Strict-Transport-Security, X-Content-Type-Options, X-Dns-Prefetch-Control, X-Download-Options, X-Frame-Options, Referrer-Policy, Cross-Origin-Opener-Policy, and Cross-Origin-Resource-Policy.
+app.use(
+  helmet.contentSecurityPolicy({
+    // Specify the allowed sources for images
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      'img-src': ["'self'", "http://localhost:4200"], // Server's domain or specific image sources here
+    },
+  })
+); // Helmet sets security-related response headers to enhance the overall security of your Express application, including Content-Security-Policy, Strict-Transport-Security, X-Content-Type-Options, X-Dns-Prefetch-Control, X-Download-Options, X-Frame-Options, Referrer-Policy, Cross-Origin-Opener-Policy, and Cross-Origin-Resource-Policy.
 
 // Setting headers
 app.use((req, res, next) => { // Middleware to set required headers for allowing cross-origin requests and defining allowed methods and headers.
