@@ -18,7 +18,7 @@ exports.createSauce = (req, res, next) => {
 
   const sauce = new Sauce({
     ...sauceObject,
-    imageUrl,
+    imageUrl, // Remove Validators.required from line 59 in the frontend sauce-form-component.ts in order to be able to submit the form without an image affixed... change to image: [null]
     likes: 0,
     dislikes: 0,
     usersLiked: [],
