@@ -87,3 +87,16 @@ mongoose
     .catch((error) => {
         console.error('Failed to connect to MongoDB', error);
     });
+
+    // Your .env file in the backend folder should look like this:
+
+// # DB_CONNECTION_STRING: Specifies the connection string for MongoDB, including the necessary credentials and host information.
+// DB_CONNECTION_STRING=mongodb+srv://<here goes your MongoDb username and remove the <> symbols too>:<here goes your MongoDb password belonging to your username and remove the <> symbols too>MDB@cluster0.ytlwqif.mongodb.net/Piquante?retryWrites=true&w=majority
+
+// # DB_NAME: Specifies the name of the MongoDB database to use for the Piquante application.
+// DB_NAME=here goes your MongoDb database name (case-sensitive)
+
+// # RANDOM_SECRET_TOKEN: Specifies a random secret token to be used for generating and validating secure tokens, such as JWTs.
+// RANDOM_SECRET_TOKEN=417 etc. // Generate a 64 byte/512bit/128 character key with this crypto.js script: const crypto=require('crypto');const generateRandomToken=length=>crypto.randomBytes(length).toString('hex');const randomSecretToken=generateRandomToken(64);console.log('RANDOM_SECRET_TOKEN:',randomSecretToken); and check the console log for the string.
+
+// # the above are imported by server.js
